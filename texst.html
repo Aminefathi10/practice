@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <title>just practicing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+          color: white;
+            background-color: #222;
+            margin: 0 auto;
+        }
+        #input{
+          background-color: #111;
+          font-size: 1.1rem;
+          color: white;
+          outline: none;
+          width: 100%;
+          max-width: 400px;
+          margin: 0 auto;
+          box-sizing: border-box;
+          font-family: helvetica;
+          padding: 0.5rem;
+        }
+  #cnvBtn{
+    font-size: 1.2rem;
+    color: white;
+    background-color: #0055ff;
+    border: none;
+    border-radius: 1px;
+    margin: 10px;
+    position: relative;
+    padding-right: 25px;
+    user-select: none;
+  }
+  #output{
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-family: serif;
+    padding: 10px;
+    color: white;
+    word-wrap: break-word;
+  }
+  #clear{
+    font-size: 1.2rem;
+    color: white;
+    background-color: #ff5500;
+    border: none;
+    border-radius: 1px;
+    margin: 10px;
+    position: relative;
+    user-select: none;
+    padding: 2px 5px;
+    display: none;
+  }
+  #copy{
+    font-size: 1.2rem;
+    color: white;
+    background-color: #fb0;
+    border: none;
+    border-radius: 1px;
+    margin: 10px;
+    position: relative;
+    user-select: none;
+    padding: 2px 5px;
+    display: none;
+  }
+  #cnvBtn span{
+    position: absolute;
+    bottom: 0;
+    transition: 500ms;
+  }
+  #cnvBtn:active span{
+    transform: rotate(-3600deg);
+  }
+    </style>
+</head>
+<body>
+  
+  <textarea rows="5" id="input"></textarea>
+  <button onclick="renderMsg()" id="cnvBtn">Convert<span class="material-symbols-outlined">
+sync
+</span></button>
+  <button id="clear" onclick="clearIO()">Clear</button>
+  <button id="copy" onclick="copyOutput()">copy</button>
+  <p id="output"></p>
+
+    <script>
+  
+  const input = document.getElementById('input');
+        const cnvBtn = document.getElementById('cnvBtn');
+        const output = document.getElementById('output');
+       
+  
+       const getCount = array => {
+         let mostRepeated;
+         let currentRep = 0;
+         let reps;
+         for (let i of array) {
+           reps = 0;
+           
+           for (let j of array) {
+            if (i === j) {
+              reps++;
+            }
+           }
+           if(reps > currentRep && reps % 2 === 1){
+           currentRep = reps;
+             
+             mostRepeated = i;
+           }
+         }
+         if(currentRep === 1){
+           return 'no numbers repeated odd number of times'
+         }
+         return mostRepeated;
+       }
+
+  function getMiddeChar(str){
+    if(str.length % 2 === 1){
+      return str[Math.floor(str.length / 2)]
+    } else {
+      return str.slice(str.length/2 -1, str.length/2 +1)
+    }
+  }
+  
+  function whoLikesIt(array){
+   
+    if(array.length === 0){
+      return 'no one likes this'
+    } else if (array.length === 1){
+     return `${array[0]} likes this`
+    } else if (array.length === 2){
+     return `${array[0]} and ${array[1]} like this`
+    } else if (array.length === 3){
+    return  `${array[0]}, ${array[1]} and ${array[2]} like this`
+    } else if (array.length > 3){
+    return  `${array[array.length-1]}, ${array[array.length-2]} and ${array.length - 2} others like this`
+    }
+  }
+  
+  const createPhoneNumber = numbers => {
+    let isValid = true;
+    for(let num of numbers) {
+    if(num < 0 || num > 9 || !Number.isInteger(num)){
+      isValid = false;
+      break;
+    }
+  }
+    if(numbers.length !== 10 || !isValid){
+      return 'enter a valid input'
+    }
+    let number = numbers.join('');
+    return `(${number.slice(0,3)}) ${number.slice(3,6)}-${number.slice(6)}`;
+};
+ 
+    const isSquare = n => {
+      if(!Number.isInteger(n) || n < 0){
+        return false;
+      }
+        return Number.isInteger(Math.sqrt(n));
+};
+  
+  const highAndLow = numbers => {
+   numbers.split(' ').sort();
+    return `${numbers[0]} ${numbers[numbers.length -1]}`
+    };
+  
+  const descendingOrder = n => {
+   let newN = n.toString().split('').sort((a, b) => {
+      if (a > b){
+      return  -1
+      } else if (b > a){
+        return 1
+      } else {
+        return 0
+      }
+    }).join('');
+    return newN;
+};
+  
+  const accum = str => {
+     return  str.split('').map((letter, index) => 
+      letter.toUpperCase() + letter.toLowerCase().repeat(index)
+    )
+    .join('-');
+};
+  
+  const spinWords = str => {
+   return str.split(' ').map(word => word.length >= 5 ? word.split('').reverse().join('') : word)
+             .join(' ');
+};
+  
+  const findShort = str => {
+    let numbers = str.split(' ').map(word => word.length);
+    return Math.min(...numbers)
+              
+};
+  
+  const countBits = n => {
+    let count = 0;
+    while(n > 0){
+      count += n % 2;
+      n = Math.floor(n/2)
+    }
+    return count;
+};
+  
+  const XO = str => {
+    let xCount = str.match(/[x]/gi) ? str.match(/[x]/gi).length : 0;
+    let oCount = str.match(/[o]/gi) ? str.match(/[o]/gi).length : 0;
+    
+    return xCount === oCount;
+};
+  
+  const positiveSum = arr => {
+    if(arr.length === 0) {
+      return 0;
+    }
+    return arr.filter(el => el > 0).reduce((a, b) => a + b)
+};
+  
+  const findOutlier = arr => {
+    let oddNumber = arr.filter(el => el % 2 === 1);
+    let evenNumber = arr.filter(el => el % 2 === 0);
+    return oddNumber < evenNumber ? oddNumber : evenNumber;
+};
+  
+  
+  
+   const DNAStrand = dna => {
+     const dnaMatch = {
+       A: 'T', T: 'A', C: 'G', G: 'C'
+     }
+     return dna.split('').map(el => dnaMatch[el])
+     .join('')
+};
+  
+    const isIsogram = str => {
+      let isRepeated = true;
+    str =  str.toUpperCase();
+      for (let i = 0; i < str.length; i++) {
+        for (let j = i + 1; j < str.length; j++) {
+          if (str[i] === str[j]) {
+            isRepeated = false;
+            break;
+          }
+        }
+        
+      }        
+      return isRepeated;
+}
+  
+  const arrayDiff = (a, b) => {
+    for(let i = 0; i < a.length; i++){
+      for (let j = 0; j < b.length; j++) {
+        if (a[i] === b[j]){
+          a.splice(i, 1);
+          b.splice(j, 1);
+          i -= 1;
+          j -= 1;
+        }
+      }
+    }
+      return a;
+};  
+  
+  const fizzBuzz = () => {
+    for (let i = 0; i <= 100; i++) {
+     let result = '';
+      if (i % 3 === 0) result += 'Fizz';
+      if (i % 5 === 0) result += 'Buzz';
+      console.log(result || i)
+    }
+};
+  
+  const reverseString = str => {
+    return str.split('').sort((a, b) => -1).join('');
+};
+  
+  const persistence = num => {
+    let result = 0;
+    while(num > 9) {
+   num = num.toString().split('').reduce((a, b) => a * b);
+      result++;
+    }
+      return result;
+};
+  
+  function fib(steps){
+    let seq = [0, 1];
+    for (let i = 1; i < steps; i++) {
+      seq.push(seq[seq.length - 1] + seq[seq.length - 2])
+    }
+      return seq[seq.length -1];
+  }
+  
+  const twoSum = (nums, target) => {
+    let indeces = [];
+    for (let i = 0; i < nums.length; i++) {
+      for (let j = i + 1; j < nums.length; j++) {
+        if (nums[i] + nums[j] === target){
+          indeces.push(i, j)
+        }
+      }
+    }
+      return indeces;
+};
+  
+  const uniqueInOrder = iterable => {
+    let newStr = ' ';
+    
+    
+    for (let i of iterable) {
+      for (let j of newStr) {
+        newStr += newStr.indexOf(i) === -1 ? i : '';
+      }
+    }
+  return newStr.slice(1).split('');
+};
+  
+  const maxProfit = prices => {
+    let profit = 0;
+    for (let i= 0; i < prices.length; i++) {
+      for (let j= i +1; j < prices.length; j++){
+         if (prices[j] - prices[i] > profit){
+           profit = prices[j] - prices[i];
+         }
+      }
+    }
+      return profit;
+};
+  
+  const songDecoder = song => {
+    song = song.split('');
+    for (let i = 0; i < song.length; i++){
+      if(song[i] === 'W' && song[i + 1] === 'U' && song[i + 2] === 'B'){
+        song.splice(i, 2);
+        song[i] = ' ';
+        i -= 3;
+      }
+    }
+      return song.join('').split(' ').join(' ');
+};
+  
+  /*
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣹⣿⣿⣿⣿⣿⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡽⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣋⣴⣿⣿⣿⣿⣿⣿⡟⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⡟⣯⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⡏⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣧⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣸⣿⣿⣿⣿⣿⢃⣸⣿⣿⣿⣧⢹⣿⣿⣯⡏⣾⡿⡿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣷⣬⣝⡃⣿⣿⣿⣿⣿⣿⣿⣿⠁⣿⣿⣿⣿⠟⣱⣿⣿⣿⣿⣿⣿⣇⢻⣿⣿⢷⣳⣿⣷⠸⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⡟⣸⣿⣿⣿⢏⣼⣿⣿⣿⣿⣿⣿⡿⢃⢸⣿⣿⢽⣿⣿⣿⡇⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⠇⣿⣿⣿⢃⣾⣿⣿⣿⣿⣿⣿⡟⣡⣿⡆⢻⣿⣾⣿⣽⣿⣧⢸⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⣿⣿⣿⣿⣿⣿⣿⡿⢸⣿⣿⠏⣾⣿⣿⣿⣿⣿⣿⠏⣴⣿⣿⣧⠘⣿⣿⣿⣿⣿⣿⡆⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⠃⣴⣿⣿⣿⣿⣿⣿⣿⢠⣿⣿⣿⠀⣿⣿⣿⣿⣿⣿⢋⣼⣿⣿⣿⣿⠀⣿⣿⣿⣿⣿⣿⡇⢸
+⣿⣿⣿⣿⣿⣿⣿⡏⣴⣿⣿⣿⣿⣿⣿⡿⢁⣿⣿⣿⣿⣤⣿⣿⣿⣿⣿⡇⢾⣿⣿⣿⣿⣿⠀⣿⣿⣷⣿⣿⣿⡇⢸
+⣿⣿⣿⣿⣿⣿⡟⢰⣿⣿⣿⣿⣿⣿⡿⢡⣾⣿⢀⠐⢈⢋⡙⠛⢟⠉⢉⣿⡈⣿⣿⣿⣿⡏⢸⣿⣿⣿⣿⣿⣿⢁⣿
+⣿⣿⣿⣿⣿⣿⢡⣿⣿⣿⣿⣿⣿⣿⠃⠚⠛⠛⠛⠛⠛⠛⠛⠿⠿⠿⠿⣿⣷⡘⣿⣿⣿⡇⢸⣿⣿⣿⣿⣿⡿⢸⣿
+⣿⣿⣿⣿⣿⡇⣾⣿⣿⣿⣿⣿⣿⢃⣾⣿⣿⣿⣿⣶⣦⣄⡀⠀⠀⠀⠀⠀⠀⣤⡙⣿⣿⡇⢸⣿⣿⣿⣿⣿⡇⢸⣿
+⣿⣿⣿⣿⡟⢰⣿⣿⣿⣿⣿⣿⢃⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⣌⣿⡌⢿⡆⢸⣿⣿⣿⣿⣿⢁⢸⣿
+⣿⣿⣿⣿⢡⣿⣿⣿⣿⣿⣿⢃⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⢀⣧⣿⣿⣆⠃⢸⣿⣿⣿⣿⡟⣸⣿⣿
+⣿⣿⣿⠏⣼⣿⣿⣿⣿⣿⢁⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⢀⣾⣿⣿⣿⣿⣧⠸⣿⣿⣿⣿⢁⣿⣿⣿
+⣿⣿⡟⢰⣿⣿⣿⣿⣿⢃⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⣾⣿⣿⣿⣿⣿⣿⣇⢻⣿⣿⡇⣾⣿⣿⣿
+⣿⣿⢁⣿⣿⣿⣿⣿⢁⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⣿⣿⣿⣿⣿⣿⣿⣿⡄⣿⣿⢠⣿⣿⣿⣿
+⣿⠋⣬⠁⠌⠿⡿⢃⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⢸⣼⣿⣿⣿⣿⣿⣿⡇⢸⡿⣸⣿⣿⣿⣿
+⠁⣼⣿⣿⣿⣮⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⣼⣿⣿⣿⣿⣿⣿⣿⣷⢸⡇⣿⣿⣿⣿⣿
+⣆⢿⣿⣿⣿⣿⣆⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⠁⣿⣿⣿⣿⣿
+⣿⡌⢻⣿⣿⣿⣿⣧⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢃⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢸⠀⣿⣿⣿⣿⣿
+⣿⣿⠈⢻⣿⣿⣿⣿⣦⡙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢡⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⣼⢰⣿⣿⣿⣿⣿
+⣿⡿⢸⡆⠻⣿⣿⣿⣿⠿⣶⣬⣉⡻⢿⣿⣿⣿⣿⣿⡿⠟⣋⣴⣜⠻⣿⣿⣿⣿⣿⣿⣿⣿⡟⣠⠇⠘⣿⣿⣿⣿⣿
+⣿⠋⠀⣴⣧⠹⣿⡏⣉⣛⡲⠤⠉⣛⣀⠈⠙⢿⣭⣥⢠⣿⣿⣿⣿⣷⣤⣝⣛⢻⣿⣿⡿⢋⡐⣋⠌⣸⣿⣿⣿⣿⣿
+⣿⣿⣶⣿⣿⣧⡙⢷⣄⠩⣛⠛⠶⠶⠆⠐⠒⣶⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠁⣤⠔⠃⣼⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣮⠻⣶⡙⢿⣿⣿⣷⣶⣾⣿⣿⠇⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⠋⡀⠈⡥⢢⣾⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⡉⠈⣸⣿⣿⣿⣿⣿⠟⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠋⠀⣈⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  */
+  const msgEnctp = msg => {
+    const charEnc = {
+      A: '2+-@[%@', B: '4@)#[)2', C: '^@-_/!49', D: '#!1_!(")%', E: '3$#!*)6(0', F: '7$(@/#9&', G: '!0+80', H: '2(>@)/_)1', I: '_!45@/)-', J: '#5}/@&', K: '%(%/§{%%\%_4', L: '&#%#-7[', M: '&5/@!#[&1', N: '9([#/@%{[}7', O: '2*#7*0)4_', P: ')$^#%2#3@!', Q: '6)+_*!@=7/[%4', R: '(+%%{/!€[*-%', S: '7@%[?8*^1', T: '_-[(#5%}_[-3(', U: '&6[!?\/6%=-*', V: '#8-%}{[€}^#', W: '/[#@1_*&(%', X: '-*;*+@?%=4(_3', Y: '2%/@+")%^_$$', Z: '2%&[%^%$-3', ' ': '9!}/?/[7+-', '.': '&6(?%\{%[*_', ',': '+(+9[?/{/`#@)', "\n": '6@*9}/8'
+    }
+    return msg.toUpperCase().split('').map(char => charEnc[char])
+              .join(']');
+  }
+  
+  const msgDenctp = msg => {
+    const encChar = {
+    '2+-@[%@': 'A', '4@)#[)2': 'B', '^@-_/!49': 'C', '#!1_!(")%': 'D', '3$#!*)6(0': 'E', '7$(@/#9&': 'F', '!0+80': 'G', '2(>@)/_)1': 'H', '_!45@/)-': 'I', '#5}/@&': 'J', '%(%/§{%%\%_4': 'K',  '&#%#-7[': 'L', '&5/@!#[&1': 'M', '9([#/@%{[}7': 'N', '2*#7*0)4_': 'O', ')$^#%2#3@!': 'P', '6)+_*!@=7/[%4': 'Q', '(+%%{/!€[*-%': 'R', '7@%[?8*^1': 'S',  '_-[(#5%}_[-3(': 'T', '&6[!?\/6%=-*': 'U', '#8-%}{[€}^#': 'V', '/[#@1_*&(%': 'W', '-*;*+@?%=4(_3': 'X', '2%/@+")%^_$$': 'Y', '2%&[%^%$-3': 'Z', '9!}/?/[7+-': ' ', '&6(?%\{%[*_': '.', '+(+9[?/{/`#@)': ',',  '6@*9}/8': ' ',
+}
+  return msg.split(']').map(char => encChar[char])
+              .join('').split(' ').join(' ');
+  }
+  
+      const renderMsg = () => {
+         let result;
+        function isLetter(char) {
+    return /^[a-zA-Z\s.,]*$/.test(char);
+}
+        if(!input.value){
+          output.innerText = 'enter your text';
+          return;
+        } else if (isLetter(input.value[1])) {
+          result = msgEnctp(input.value);
+        } else {
+          result = msgDenctp(input.value)
+        }
+        output.innerText = result.toLowerCase();
+        document.getElementById('clear').style.display = 'inline-block';
+        document.getElementById('copy').style.display = 'inline-block';
+     
+      }
+      const clearIO = () => {
+        input.value = '';
+        output.innerText = '';
+        document.getElementById('clear').style.display = 'none';
+        document.getElementById('copy').style.display = 'none';
+     
+      }
+      const copyOutput = () => {
+       const temp = document.createElement('textarea');
+        temp.value = output.innerText;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+      }
+  /*
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠛⢉⣽⣿⣿⣿⣿⠟⠁⠀⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⡿⠛⠉⠁⠀⠀⢀⣴⣿⠿⠟⠛⢉⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⠟⢁⣴⠀⡎⠀⠀⠀⣼⡟⠁⠀⢀⡶⠁⠀⠀⣀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⡟⠁⠔⠁⡇⢸⡃⢀⣤⡶⠟⠁⠀⠀⠿⠷⠶⠋⠃⠁⠀⠙⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⠏⠀⠀⠀⠀⠀⢸⡷⠛⠁⡀⠄⠀⠀⠀⠀⠀⠀⠠⣀⣀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⡿⠀⠀⡄⠀⠀⢠⡟⠀⣠⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣤⡀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿
+⣿⠃⢰⡆⢹⣄⢠⡟⠀⣼⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠻⢿⣿⣿⣿⣿⣿
+⢿⠀⠏⠈⠀⠹⣾⠀⢸⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⣿⣿⣿
+⣝⠀⠀⠀⠀⢀⡇⠀⣸⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣀⠀⠀⠀⠀⠀⠈⠙⢿
+⣿⠀⠰⣀⠀⢸⡇⠀⢸⣿⠀⠀⠀⠀⣷⣤⣀⠀⠀⠀⠀⠀⢀⣠⣾⠟⠁⠈⠉⠒⠀⠀⠀⠀⠀⠘
+⣷⠀⡦⡈⠳⣾⣇⠀⢸⣿⡄⠀⠀⠀⣿⣿⣟⠻⠿⡶⠷⢻⣿⣿⣵⣶⣶⣶⣤⣄⡀⠀⢀⣠⣴⣾
+⣿⡄⠃⠈⠀⠰⣿⠀⢸⣿⡇⠀⠀⠀⠸⣿⣿⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣧⣴⣿⣿⣿⣿
+⣿⣇⠀⠀⠀⠀⣿⠀⠈⣿⣿⠀⠀⠀⠀⠙⣿⣧⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⡀⠢⣀⠀⣿⣄⣀⣿⣿⡆⠀⠀⠀⠀⠈⠙⠷⣄⡀⠀⠀⠘⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣧⠀⠈⠳⣾⠉⢉⡙⠻⠷⢶⣤⣄⣀⡀⠀⠀⠀⠉⠒⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⠀⠀⠀⣶⠀⢸⠋⠙⠓⠒⠶⢬⣭⣙⣛⠲⠶⣤⣤⣀⡀⠀⠀⠀⠉⠻⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⡇⠀⠀⣿⣀⣀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠙⠛⠒⠶⠯⣽⣛⣶⣶⣤⣤⣾⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⡇⠀⢰⠛⠿⠿⢿⣿⣶⣶⣤⣤⣀⣀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠛⠛⠟⠃⠙⢿⣿⣿⣿
+⣿⣿⣿⠃⠀⠋⠀⣰⣤⣤⣄⣈⡉⠙⠛⠛⠿⠿⢿⣷⣶⣦⣤⣄⣀⡀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿
+⣿⣿⡟⠀⠀⢀⣴⡿⠁⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⠉⠙⠛⠻⠿⠿⢷⣶⣆⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⡟⣀⣤⣶⣿⣟⣠⣀⣠⣀⣀⣀⣀⣠⣀⣄⣠⣀⣤⣠⣄⣤⣠⣄⣠⣠⣀⣀⣼⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⠱⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⢿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢻⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣷⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣾⣿⣿⣿
+  */
+  
+  const reverse = x => {
+    let reversed = Number(x.toString().split('').reverse().join(''));
+    let max = 2**32 - 1;
+    let min = -(2**32);
+    if(reversed > min && reversed < max){ return reversed}
+    else{ return 0};
+};
+  
+  console.log()
+  
+    </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>calculator</title>
+  <style>
+  body{
+    margin:0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #aaaaaa;
+  }
+  #calculator{
+    background-color: black;
+    max-width: 300px;
+   overflow: hidden;
+    border-radius: 15px;
+  }
+  textarea{
+    font-family: monospace;
+    font-size: 3rem;
+    border: none;
+    outline: none;
+    background-color: #111111;
+    color: white;
+    height: 110px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  #keys{
+    margin: 0;
+   
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 10px;
+    margin: 5px auto;
+    
+  }
+  button{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    background-color: #666666;
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+  }
+  button:active{
+    background-color: #aaaaaa;
+  }
+  .operator{
+    background-color: orange;
+  }
+  .operator:active{
+    background-color: #ffba4a;
+  }
+  .long{
+    font-size: 2rem;
+  }
+  </style>
+</head>
+<body>
+  <div id="calculator">
+    <textarea id="display" readonly></textarea>
+    <div id="keys">
+    <button onclick="displayNum('+')" class="operator">+</button>
+    <button onclick="displayNum('1')">1</button>
+    <button onclick="displayNum('2')">2</button>
+    <button onclick="displayNum('3')">3</button>
+    <button onclick="displayNum('-')" class="operator">-</button>
+    <button onclick="displayNum('4')">4</button>
+    <button onclick="displayNum('5')">5</button>
+    <button onclick="displayNum('6')">6</button>
+    <button onclick="displayNum('*')" class="operator">*</button>
+    <button onclick="displayNum('7')">7</button>
+    <button onclick="displayNum('8')">8</button>
+    <button onclick="displayNum('9')">9</button>
+    <button onclick="displayNum('/')" class="operator">÷</button>
+    <button onclick="displayNum('.')">.</button>
+      <button onclick="displayNum('0')">0</button>
+    <button onclick="calcul()" class="operator">=</button>
+      
+      <button onclick="clearNum()" class="operator">C</button>
+      <button onclick="clearDig()" class="operator">CE</button>
+      </div>
+  </div>
+  <script>
+  const diplay = document.getElementById('display');
+  function displayNum(num){
+    if(display.value === "Error" || display.value === "Infinity"){
+      return;
+    }
+    
+    display.value += num;
+  }
+  function calcul(){
+    
+    try{
+      let result = eval(display.value);
+      display.value = result.toString().length <= 11 ? result : result.toExponential(5); 
+    }
+    catch(error){
+      display.value = "Error"
+    }
+    if(display.value === "undefined" || display.value === "Error"){
+      display.value = '';
+    }
+  }
+  function clearNum(){
+    display.value = '';
+  }
+  function clearDig(){
+    if(display.value === "Error" || display.value === "Infinity"){
+      return;
+    }
+    display.value = display.value.slice(0, display.value.length -1);
+  }
+  
+  document.addEventListener('keydown', e => {
+    switch(e.key){
+     case'0':
+     displayNum('0')
+break;
+     case'1':
+     displayNum('1')
+break;
+     case'2':
+     displayNum('2')
+break;
+     case'3':
+     displayNum('3')
+break;
+     case'4':
+     displayNum('4')
+break;
+     case'5':
+     displayNum('5')
+break;
+     case'6':
+     displayNum('6')
+break;
+     case'7':
+     displayNum('7')
+break;
+     case'8':
+     displayNum('8')
+break;
+     case'9':
+     displayNum('9')
+break;
+case'.':
+     displayNum('.')
+break;
+     case'+':
+     displayNum('+')
+break;
+     case'-':
+     displayNum('-')
+break;
+     case'/':
+     displayNum('/')
+break;
+     case'*':
+     displayNum('*')
+break;
+     case'=':
+     calcul();
+break;
+case'Enter':
+     calcul();
+break;
+     case'c':
+     clearNum();
+break;
+case'Backspace':
+     clearDig();
+break;
+    }
+  })
+  </script>
+</body>
+</html>

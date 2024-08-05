@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <style>
+  #container{
+    margin: 20vh auto;
+    max-width: 600px;
+    border: solid;
+    border-radius: 30px;
+    background-color: #dddddd;
+  }
+  #timerDis{
+    font-size: 3rem;
+    margin: 10px auto;
+    text-align: center;
+    font-family: Arial;
+  }
+  #btns{
+    display: flex;
+    justify-content: center;
+  }
+  button{
+    margin: 20px;
+    margin-top: 5px;
+    font-size: 1.5rem;
+    width: 30%;
+    border: none;
+    transition: all 50ms ease;
+    border-radius: 10px;
+    font-weight: bold;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+  }
+  #timerDis{
+    font-size: 5rem;
+    font-family: serif;
+  }
+  [onclick="start()"]{
+    background-color: green;
+  }
+  [onclick="start()"]:hover{
+    background-color: rgb(32, 255, 32);
+  }
+  [onclick="start()"]:active{
+   
+    transform: scale(1.2);
+  }
+  [onclick="stop()"]{
+    background-color: red;
+  }
+  [onclick="stop()"]:hover{
+    background-color: rgb(255, 39, 39);
+  }
+  [onclick="stop()"]:active{
+  
+    transform: scale(1.2);
+  }
+  [onclick="reset()"]{
+    background-color: blue;
+  }
+  [onclick="reset()"]:hover{
+    background-color: rgb(34, 93, 255);
+  }
+  [onclick="reset()"]:active{
+   
+    transform: scale(1.2);
+  }
+  </style>
+</head>
+<body>
+  <h1>
+   Stopwatch
+  </h1>
+  <div id="container">
+    <h1 id="timerDis">00:00:00</h1>
+    <div id="btns">
+    <button onclick="start()">Start</button>
+    <button onclick="stop()">Stop</button>
+    <button onclick="reset()">Reset</button>
+    </div>
+  </div>
+  <script>
+    const display = document.getElementById('timerDis');
+    let starTime = 0;
+    let elapsedTime = 0;
+    let isRunning = false;
+    let timer = null;
+  
+  function start(){
+    if(!isRunning){
+    startTime = Date.now() - elapsedTime;
+    isRunning = true;
+    timer = setInterval(update, 10);
+    }
+  }
+  function stop(){
+    if(isRunning){
+      isRunning = false;
+      clearInterval(timer);
+    }
+  }
+  function reset(){
+    clearInterval(timer);
+    starTime = 0;
+    elapsedTime = 0;
+    isRunning = false;
+    timer = null;
+    display.innerText = "00:00:00";
+ 
+  }
+  function update(){
+    const currentTime = Date.now();
+    elapsedTime = currentTime - startTime;
+    
+    let milSec = Math.floor((elapsedTime / 10)) % 99;
+    let scnds =  Math.floor((elapsedTime / 1000)) % 60;
+    let mins = Math.floor(((elapsedTime / 1000) / 60)) % 60;
+    
+    milSec = String(milSec).padStart(2, "0");
+    scnds = String(scnds).padStart(2, "0");
+    mins = String(mins).padStart(2, "0");
+    
+    display.innerText = `${mins}:${scnds}:${milSec}`;
+  }
+  </script>
+</body>
+</html>

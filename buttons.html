@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Hello, World!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Almendra+SC&family=Jacquard+24&family=Satisfy&display=swap" rel="stylesheet">
+  <style>
+    @tailwind base;
+@tailwind components;
+@tailwind utilities;
+   body{
+     background-color: black;
+   }
+  h1{
+    color: #ddd;
+    transition: all 500ms ease;
+    
+  }
+  button{
+    font-size: 3rem;
+    background-color: #ddd;
+    font-weight: 700;
+    font-family: "Almendra SC";
+    border: none;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    margin: 20px auto;
+    display: block;
+    padding: 10px;
+    z-index: 1;
+    transition: color 500ms ease-in-out;
+  }
+  button:hover{
+    color: white;
+  }
+  #btn1::after{
+    content: "";
+    height: 100%;
+    margin: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #24B19A;
+    width: 100%;
+    transform: scaleX(0);
+    transition: transform 500ms ease-in-out;
+    transform-origin: left;
+    z-index: -1;
+  }
+  #btn1:hover::after{
+    transform: scaleX(1.5);
+   
+  }
+  #btn2{
+    background-color: #24B19A;
+    
+  }
+  #btn2::after{
+    content: "";
+    height: 100%;
+    margin: 0;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #ddd;
+    width: 100%;
+    transform: scale(1.5);
+    transition: transform 500ms ease-in-out;
+    transform-origin: center;
+    z-index: -1;
+  }
+  #btn2:hover::after{
+    transform: scale(0);
+   
+  }
+  
+   #btn3::after{
+    content: "";
+    height: 100%;
+    margin: 0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: #24B19A;
+    width: 100%;
+     height: 5%;
+    transform: scaleX(0);
+    transition: transform 500ms ease-in-out;
+    transform-origin: center;
+    
+  }
+  #btn3{
+    color: black;
+  }
+  #btn3:hover::after{
+    transform: scaleX(1.5);
+    
+  }
+  #btn4{
+    color: black;
+    overflow: visible;
+    z-index: 1;
+    
+  }
+  #btn4::after{
+    content: "";
+   
+    margin: 0;
+    position: absolute;
+    border: 4px solid #ddd;
+    border-radius: 5px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+   
+    
+    transition: all 100ms ease-in-out;
+    transform-origin: center;
+    
+  }
+  #btn4:hover::after{
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+  }
+  
+  </style>
+</head>
+<body>
+  <h1>CSS button animation</h1>
+  <h1 class="text-3xl font-bold underline">
+    Hello world!
+  </h1>
+  <button id="btn1" class="">slide button</button>
+  <button id="btn2">circle shrink</button>
+  <button id="btn3">underline</button>
+  <button id="btn4">outline border</button>
+  <script>
+    module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+
+   document.getElementById('btn1').addEventListener('mouseover', () => {
+     document.querySelector('h1').style.color = 'red';
+   });
+   document.getElementById('btn2').addEventListener('mouseover', () => {
+     document.querySelector('h1').style.color = '#9CFF31';
+   });
+   document.getElementById('btn3').addEventListener('mouseover', () => {
+     document.querySelector('h1').style.color = '#9C0031';
+   });
+   document.getElementById('btn4').addEventListener('mouseover', () => {
+     document.querySelector('h1').style.color = '#9CD0DC';
+   });
+  </script>
+</body>
+</html>
